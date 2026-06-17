@@ -35,6 +35,7 @@ class SemanticRetriever:
                     token_count=payload["token_count"],
                     document_id=UUID(payload["document_id"]),
                     metadata=payload.get("metadata", {}),
+                    embedding_score=float(r.score),
                 ))
             except (KeyError, ValueError):
                 continue

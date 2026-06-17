@@ -1,16 +1,6 @@
 import statistics
 from typing import List, Tuple, Any
 
-_cross_encoder = None
-
-
-def get_cross_encoder():
-    global _cross_encoder
-    if _cross_encoder is None:
-        from sentence_transformers import CrossEncoder
-        _cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
-    return _cross_encoder
-
 
 def normalize_scores(scores: List[float]) -> List[float]:
     """Min-max normalize to [0, 1]. Uniform input returns all 0.5. Empty returns []."""
@@ -35,14 +25,10 @@ def compute_dynamic_threshold(scores: List[float]) -> float:
 
 class ROIEngine:
     def score(self, query: str, chunks: List[Any]) -> List[Tuple[Any, float]]:
-        """Return [(chunk, normalized_score), ...] for each chunk. Gracefully degrades on error."""
+        """Score chunks by cosine similarity already computed by Qdrant during retrieval.
+        No local model — zero additional memory overhead."""
         if not chunks:
             return []
-        try:
-            encoder = get_cross_encoder()
-            pairs = [(query, c.content) for c in chunks]
-            raw_scores = list(encoder.predict(pairs))
-            normalized = normalize_scores(raw_scores)
-            return list(zip(chunks, normalized))
-        except Exception:
-            return [(c, 0.5) for c in chunks]
+        raw = [c.embedding_score for c in chunks]
+        normalized = normalize_scores(raw)
+        return list(zip(chunks, normalized))

@@ -12,6 +12,7 @@ class Chunk(BaseModel):
     token_count: int
     document_id: UUID
     metadata: dict
+    embedding_score: float = 0.5
 
 
 class ScoredChunk(BaseModel):
