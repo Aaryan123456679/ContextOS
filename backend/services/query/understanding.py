@@ -20,6 +20,7 @@ def get_nlp():
             _nlp = None
     return _nlp
 
+
 class QueryUnderstanding:
     def analyze(self, query: str) -> QueryAnalysis:
         nlp = get_nlp()
