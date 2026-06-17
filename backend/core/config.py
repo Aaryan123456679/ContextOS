@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 from typing import Optional
 
 class Settings(BaseSettings):
@@ -43,7 +44,14 @@ class Settings(BaseSettings):
     # App
     ENVIRONMENT: str = "development"
     CORS_ORIGINS: list[str] = ["http://localhost:3000"]
-    RENDER_HEALTHCHECK_TOKEN: Optional[str] = None # for /health auth
+    RENDER_HEALTHCHECK_TOKEN: Optional[str] = None
+
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors(cls, v):
+        if isinstance(v, str):
+            return [o.strip() for o in v.split(",") if o.strip()]
+        return v
 
     class Config:
         env_file = ".env"
