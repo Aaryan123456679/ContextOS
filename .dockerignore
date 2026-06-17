@@ -1,0 +1,28 @@
+# Keep the build context small and avoid copying host-built artifacts that would
+# bloat the image or clash with the in-image install/build.
+
+# Node / Next
+**/node_modules
+frontend/.next
+frontend/playwright-report
+frontend/test-results
+frontend/tsconfig.tsbuildinfo
+
+# Python
+**/__pycache__
+**/*.pyc
+backend/.venv
+backend/venv
+backend/.pytest_cache
+
+# Tooling / VCS / docs
+.git
+.gitignore
+**/.DS_Store
+tests
+docs
+*.md
+
+# Note: backend/.env and frontend/.env.local are intentionally NOT ignored so the
+# image is runnable out of the box. Remove them here and pass --env-file at run
+# time if you prefer to keep secrets out of the image.

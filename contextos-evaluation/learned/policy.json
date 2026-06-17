@@ -1,0 +1,32 @@
+{
+  "features": [
+    "roi_score",
+    "fusion_score",
+    "density",
+    "contradiction_risk",
+    "dependency_pruned",
+    "on_chain",
+    "qconcept_overlap",
+    "qconcept_frac",
+    "fusion_rel",
+    "rank_frac",
+    "position_frac",
+    "token_count",
+    "n_candidates"
+  ],
+  "importances": {
+    "roi_score": 0.7025111777013765,
+    "rank_frac": 0.09698796420494216,
+    "fusion_score": 0.07339169378550957,
+    "density": 0.04200703401487214,
+    "n_candidates": 0.019986763592060388,
+    "fusion_rel": 0.0195407123978907,
+    "token_count": 0.014039996133616572,
+    "qconcept_frac": 0.012962392121010205,
+    "qconcept_overlap": 0.008026740172024292,
+    "position_frac": 0.007254105175062452,
+    "contradiction_risk": 0.003291420701635161,
+    "dependency_pruned": 0.0,
+    "on_chain": 0.0
+  }
+}

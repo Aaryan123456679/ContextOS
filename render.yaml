@@ -1,0 +1,68 @@
+services:
+  - type: web
+    name: contextos-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt && python -m spacy download en_core_web_sm
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+
+      # ── Context selection ──────────────────────────────────────────────────────
+      # "learned" = trained all-signal GBM policy (beats density allocator + SOTA
+      # LLMLingua-2 at 55/70/85% reduction, statistically significant, n=2,000).
+      # "fixed"   = density allocator fallback. Learned mode auto-falls-back on error.
+      - key: SELECTION_MODE
+        value: learned
+
+      # Retrieval pool size. Larger = better recall but more latency. 24 is the
+      # tuned optimum; increase to 32–48 if users have large document sets.
+      - key: RETRIEVAL_LIMIT
+        value: "24"
+
+      # ── Engine toggles (server-side defaults) ─────────────────────────────────
+      # Per-request overrides from the frontend settings panel take precedence.
+      # ROI cross-encoder is ON by default — it's the dominant selection signal.
+      # Dependency + contradiction engines contributed ~0 in eval (ablation result)
+      # and add ~3–5 s latency each; kept OFF. Compression over-compressed in eval;
+      # kept OFF — selection is the optimizer.
+      - key: ENABLE_DEPENDENCY_ENGINE
+        value: "false"
+      - key: ENABLE_CONTRADICTION_ENGINE
+        value: "false"
+      - key: COMPRESSION_ENABLED
+        value: "false"
+
+      # ── Secrets — fill in the Render dashboard, never commit values ───────────
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: QDRANT_URL
+        sync: false
+      - key: QDRANT_KEY
+        sync: false
+      - key: UPSTASH_REDIS_URL
+        sync: false
+      # AES-256 key for encrypting stored OAuth tokens (32-byte hex string).
+      - key: ENCRYPTION_KEY
+        sync: false
+
+      # ── CORS ──────────────────────────────────────────────────────────────────
+      # Update to your Vercel frontend URL after first deploy.
+      - key: CORS_ORIGINS
+        value: https://contextos.vercel.app

@@ -1,0 +1,52 @@
+# Environment files — never commit secrets
+.env
+.env.local
+.env*.local
+*.env
+backend/.env
+frontend/.env.local
+
+# Claude Code session data
+.claude/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+*.egg-info/
+dist/
+.pytest_cache/
+
+# Node
+node_modules/
+.next/
+frontend/.next/
+frontend/out/
+npm-debug.log*
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Misc
+*.tar.gz
+
+# Evaluation corpus data — large scraped files, not source code
+contextos-evaluation/data/
+contextos-evaluation/results/runs/
+
+# Large evaluation data files
+contextos-evaluation/mrqa/data/
+contextos-evaluation/hotpotqa/data/
+contextos-evaluation/musique/data/
+contextos-evaluation/Multimodel/
+contextos-evaluation/learned/features_*.csv
+contextos-evaluation/learned/policy.pkl
+backend/benchmark/data/
+backend/benchmark/results/
+frontend/playwright-report/
+frontend/tsconfig.tsbuildinfo

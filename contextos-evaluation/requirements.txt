@@ -1,0 +1,10 @@
+# Evaluation-suite dependencies (in addition to the backend's, which provide the
+# engines + trafilatura/tiktoken/sentence-transformers/bert-score/rank-bm25/networkx).
+arxiv
+wikipedia-api
+numpy>=1.26
+scipy>=1.11
+pandas>=2.1
+matplotlib>=3.8
+tqdm>=4.66
+# Optional hosted providers (only if used): openai, anthropic, google-generativeai
