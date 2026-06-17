@@ -69,19 +69,14 @@ async def init_vector_store():
 
 @app.on_event("startup")
 async def warm_models():
-    """Pre-warm ML models in background so first user request isn't slow."""
+    """Pre-warm cross-encoder only (ROI is always-on). NLI skipped — contradiction is off by default."""
     async def _warm():
-        await asyncio.sleep(3)  # let app fully start first
+        await asyncio.sleep(5)
         try:
             from services.engines.roi_engine import get_cross_encoder
             get_cross_encoder()
         except Exception as e:
             logging.warning("CrossEncoder warm failed: %s", e)
-        try:
-            from services.engines.contradiction import get_nli_model
-            get_nli_model()
-        except Exception as e:
-            logging.warning("NLI model warm failed: %s", e)
 
     asyncio.create_task(_warm())
 
