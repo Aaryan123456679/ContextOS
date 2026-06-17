@@ -1,4 +1,3 @@
-import spacy
 from typing import List, Dict, Any
 from pydantic import BaseModel
 
@@ -15,9 +14,9 @@ def get_nlp():
     global _nlp
     if _nlp is None:
         try:
+            import spacy
             _nlp = spacy.load("en_core_web_sm")
         except Exception:
-            # Fallback if model not downloaded
             _nlp = None
     return _nlp
 
