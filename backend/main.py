@@ -30,7 +30,7 @@ app.add_middleware(BaseHTTPMiddleware, dispatch=auth_middleware)
 # CORS must be outermost (added last) so it handles preflight before anything else
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.CORS_ORIGINS if settings.ENVIRONMENT == "production" else ["*"],
+    allow_origins=settings.cors_origins_list if settings.ENVIRONMENT == "production" else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
