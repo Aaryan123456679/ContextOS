@@ -11,8 +11,8 @@ class Settings(BaseSettings):
     QDRANT_URL: str
     QDRANT_KEY: str
 
-    # Cache
-    UPSTASH_REDIS_URL: str
+    # Cache (optional — only used for speculative prefetching)
+    UPSTASH_REDIS_URL: Optional[str] = None
 
     # Encryption
     ENCRYPTION_KEY: str            # 32-byte AES key for API key encryption
